@@ -1,1 +1,728 @@
 
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>M. Zain ul Abidin | Frontend Developer</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet"
+href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+
+<style>
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:'Poppins',sans-serif;
+}
+
+html{
+    scroll-behavior:smooth;
+}
+
+body{
+    background:linear-gradient(-45deg,#0f172a,#1e293b,#111827,#0f172a);
+    background-size:400% 400%;
+    animation:bgMove 15s ease infinite;
+    color:#fff;
+    overflow-x:hidden;
+}
+
+@keyframes bgMove{
+    0%{background-position:0% 50%;}
+    50%{background-position:100% 50%;}
+    100%{background-position:0% 50%;}
+}
+
+#particles-js{
+    position:fixed;
+    width:100%;
+    height:100%;
+    top:0;
+    left:0;
+    z-index:-1;
+}
+
+/* HEADER */
+
+header{
+    position:fixed;
+    top:0;
+    left:0;
+    width:100%;
+    background:rgba(15,23,42,.6);
+    backdrop-filter:blur(15px);
+    z-index:1000;
+}
+
+nav{
+    width:90%;
+    margin:auto;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    padding:20px 0;
+}
+
+.logo{
+    font-size:30px;
+    font-weight:700;
+    color:#38bdf8;
+}
+
+.nav-links{
+    display:flex;
+    list-style:none;
+}
+
+.nav-links li{
+    margin-left:35px;
+}
+
+.nav-links a{
+    color:white;
+    text-decoration:none;
+    transition:.4s;
+}
+
+.nav-links a:hover{
+    color:#38bdf8;
+}
+
+.right-nav{
+    display:flex;
+    align-items:center;
+    gap:25px;
+}
+
+.theme-toggle{
+    font-size:24px;
+    cursor:pointer;
+    color:#38bdf8;
+}
+
+.menu-btn{
+    display:none;
+    font-size:28px;
+    cursor:pointer;
+}
+
+/* HERO */
+
+.hero{
+    min-height:100vh;
+    width:90%;
+    margin:auto;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:60px;
+}
+
+.hero-text{
+    flex:1;
+}
+
+.hero-text h3{
+    color:#38bdf8;
+    font-size:28px;
+}
+
+.hero-text h1{
+    font-size:68px;
+    line-height:1.2;
+    margin:15px 0;
+
+    background:linear-gradient(
+        90deg,
+        #38bdf8,
+        #60a5fa,
+        #8b5cf6,
+        #38bdf8
+    );
+
+    background-size:300%;
+    -webkit-background-clip:text;
+    -webkit-text-fill-color:transparent;
+    animation:textMove 6s linear infinite;
+}
+
+@keyframes textMove{
+    from{
+        background-position:0%;
+    }
+    to{
+        background-position:300%;
+    }
+}
+
+.hero-text h2{
+    font-size:35px;
+    margin-bottom:20px;
+}
+
+.typing{
+    color:#38bdf8;
+    border-right:3px solid #38bdf8;
+    padding-right:5px;
+}
+
+.hero-text p{
+    line-height:1.9;
+    color:#d1d5db;
+    font-size:18px;
+    margin-bottom:35px;
+}
+
+.hero-buttons{
+    display:flex;
+    gap:20px;
+    flex-wrap:wrap;
+}
+
+.btn{
+    text-decoration:none;
+    color:white;
+    padding:15px 35px;
+    border-radius:50px;
+    background:linear-gradient(45deg,#38bdf8,#8b5cf6);
+    box-shadow:0 10px 30px rgba(56,189,248,.4);
+    transition:.4s;
+}
+
+.btn:hover{
+    transform:translateY(-8px);
+}
+
+.btn-secondary{
+    background:transparent;
+    border:2px solid #38bdf8;
+}
+
+.hero-image{
+    flex:1;
+    text-align:center;
+}
+
+.hero-image img{
+    width:380px;
+    filter:drop-shadow(0 0 35px #38bdf8);
+    animation:float 4s ease-in-out infinite;
+}
+
+@keyframes float{
+    0%,100%{
+        transform:translateY(0);
+    }
+    50%{
+        transform:translateY(-20px);
+    }
+}
+
+/* SOCIALS */
+
+.social-icons{
+    margin-top:40px;
+}
+
+.social-icons a{
+    color:white;
+    font-size:28px;
+    margin-right:25px;
+    transition:.4s;
+}
+
+.social-icons a:hover{
+    color:#38bdf8;
+    transform:translateY(-10px);
+}
+
+/* SECTIONS */
+
+section{
+    width:90%;
+    margin:auto;
+    padding:120px 0;
+    opacity:0;
+    transform:translateY(80px);
+    transition:1s;
+}
+
+section.show{
+    opacity:1;
+    transform:translateY(0);
+}
+
+.section-title{
+    text-align:center;
+    margin-bottom:70px;
+}
+
+.section-title h2{
+    font-size:45px;
+    color:#38bdf8;
+}
+
+/* ABOUT */
+
+.about-text{
+    max-width:900px;
+    margin:auto;
+    text-align:center;
+    line-height:2;
+    font-size:18px;
+    color:#d1d5db;
+}
+
+/* CARDS */
+
+.skills-container,
+.project-container,
+.contact-container{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(280px,1fr));
+    gap:30px;
+}
+
+.skill-box,
+.card,
+.contact-card{
+    background:rgba(255,255,255,.05);
+    backdrop-filter:blur(15px);
+    border:1px solid rgba(255,255,255,.1);
+    border-radius:25px;
+    padding:35px;
+    transition:.5s;
+}
+
+.skill-box:hover,
+.card:hover,
+.contact-card:hover{
+    transform:translateY(-15px);
+    box-shadow:0 20px 40px rgba(56,189,248,.25);
+}
+
+.skill-box h3,
+.card h3,
+.contact-card h3{
+    margin-bottom:20px;
+}
+
+.bar{
+    width:100%;
+    height:15px;
+    background:#222;
+    border-radius:20px;
+    overflow:hidden;
+}
+
+.bar span{
+    display:block;
+    height:100%;
+    background:linear-gradient(
+        45deg,
+        #38bdf8,
+        #8b5cf6
+    );
+}
+
+.card{
+    text-align:center;
+}
+
+.card i,
+.contact-card i{
+    font-size:50px;
+    color:#38bdf8;
+    margin-bottom:20px;
+}
+
+footer{
+    text-align:center;
+    padding:35px;
+    background:rgba(0,0,0,.3);
+    backdrop-filter:blur(10px);
+}
+
+/* LIGHT MODE */
+
+body.light{
+    background:#f4f4f4;
+    color:#111;
+}
+
+body.light .skill-box,
+body.light .card,
+body.light .contact-card{
+    background:white;
+    color:#111;
+}
+
+body.light .about-text,
+body.light .hero-text p{
+    color:#555;
+}
+
+body.light .nav-links a{
+    color:#111;
+}
+
+/* RESPONSIVE */
+
+@media(max-width:900px){
+
+    .hero{
+        flex-direction:column-reverse;
+        text-align:center;
+        padding-top:120px;
+    }
+
+    .hero-text h1{
+        font-size:45px;
+    }
+
+    .hero-text h2{
+        font-size:28px;
+    }
+
+    .hero-image img{
+        width:250px;
+    }
+
+    .hero-buttons{
+        justify-content:center;
+    }
+
+    .nav-links{
+        position:absolute;
+        top:80px;
+        right:-100%;
+        width:100%;
+        background:#111827;
+        flex-direction:column;
+        text-align:center;
+        transition:.5s;
+        padding:30px 0;
+    }
+
+    .nav-links.active{
+        right:0;
+    }
+
+    .nav-links li{
+        margin:20px 0;
+    }
+
+    .menu-btn{
+        display:block;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<div id="particles-js"></div>
+
+<header>
+<nav>
+
+<div class="logo">M.Zain</div>
+
+<ul class="nav-links">
+<li><a href="#home">Home</a></li>
+<li><a href="#about">About</a></li>
+<li><a href="#skills">Skills</a></li>
+<li><a href="#projects">Projects</a></li>
+<li><a href="#contact">Contact</a></li>
+</ul>
+
+<div class="right-nav">
+<div class="theme-toggle">
+<i class="fas fa-moon"></i>
+</div>
+
+<div class="menu-btn">
+<i class="fas fa-bars"></i>
+</div>
+</div>
+
+</nav>
+</header>
+
+<section class="hero show" id="home">
+
+<div class="hero-text">
+<h3>Hello, I'm</h3>
+
+<h1>M. Zain ul Abidin</h1>
+
+<h2><span class="typing"></span></h2>
+
+<p>
+Frontend Web Developer and Software Engineering student at
+Air University Karachi Campus. Passionate about creating
+beautiful, responsive and interactive web experiences.
+</p>
+
+<div class="hero-buttons">
+<a href="#contact" class="btn">Hire Me</a>
+
+<a href="M_Zain_ul_Abidin_CV.pdf"
+download
+class="btn btn-secondary">
+Download CV
+</a>
+</div>
+
+<div class="social-icons">
+<a href="#"><i class="fab fa-github"></i></a>
+<a href="#"><i class="fab fa-linkedin"></i></a>
+<a href="#"><i class="fab fa-instagram"></i></a>
+</div>
+
+</div>
+
+<div class="hero-image">
+<img src="https://cdn-icons-png.flaticon.com/512/3135/3135715.png">
+</div>
+
+</section>
+<section id="about">
+    <div class="section-title">
+        <h2>About Me</h2>
+    </div>
+
+    <div class="about-text">
+        I am <b>M. Zain ul Abidin</b>, a Frontend Web Developer and Software Engineering student at Air University Karachi Campus.
+        I specialize in building modern, responsive, and animated websites using HTML, CSS, and JavaScript.
+        I enjoy solving problems and turning ideas into interactive web experiences.
+    </div>
+</section>
+
+<section id="skills">
+    <div class="section-title">
+        <h2>Skills</h2>
+    </div>
+
+    <div class="skills-container">
+
+        <div class="skill-box">
+            <h3>HTML</h3>
+            <div class="bar"><span style="width:95%"></span></div>
+        </div>
+
+        <div class="skill-box">
+            <h3>CSS</h3>
+            <div class="bar"><span style="width:90%"></span></div>
+        </div>
+
+        <div class="skill-box">
+            <h3>JavaScript</h3>
+            <div class="bar"><span style="width:85%"></span></div>
+        </div>
+
+        <div class="skill-box">
+            <h3>Responsive Design</h3>
+            <div class="bar"><span style="width:92%"></span></div>
+        </div>
+
+    </div>
+</section>
+
+<section id="projects">
+    <div class="section-title">
+        <h2>Projects</h2>
+    </div>
+
+    <div class="project-container">
+
+        <div class="card">
+            <i class="fas fa-code"></i>
+            <h3>Portfolio Website</h3>
+            <p>Modern animated personal portfolio built with HTML, CSS & JS.</p>
+        </div>
+
+        <div class="card">
+            <i class="fas fa-hospital"></i>
+            <h3>Hospital System (C++)</h3>
+            <p>Console-based patient management system with file handling.</p>
+        </div>
+
+        <div class="card">
+            <i class="fas fa-globe"></i>
+            <h3>Landing Pages</h3>
+            <p>Responsive business and startup landing pages with modern UI.</p>
+        </div>
+
+    </div>
+</section>
+
+<section id="contact">
+    <div class="section-title">
+        <h2>Contact Me</h2>
+    </div>
+
+    <div class="contact-container">
+
+        <div class="contact-card">
+            <i class="fas fa-envelope"></i>
+            <h3>Email</h3>
+            <p>m.zainulabidin@example.com</p>
+        </div>
+
+        <div class="contact-card">
+            <i class="fas fa-phone"></i>
+            <h3>Phone</h3>
+            <p>+92 349 0242240</p>
+        </div>
+
+        <div class="contact-card">
+            <i class="fas fa-map-marker-alt"></i>
+            <h3>Location</h3>
+            <p>Karachi, Pakistan</p>
+        </div>
+
+    </div>
+</section>
+
+<footer>
+    <p>© 2026 M. Zain ul Abidin | Frontend Web Developer</p>
+</footer>
+
+<!-- SCRIPTS -->
+<script>
+// Typing Animation
+const words = [
+    "Frontend Web Developer",
+    "UI/UX Enthusiast",
+    "Software Engineering Student",
+    "Problem Solver"
+];
+
+let i = 0;
+let j = 0;
+let current = "";
+let isDeleting = false;
+
+const typingEl = document.querySelector(".typing");
+
+function typeEffect() {
+    current = words[i];
+
+    if (!isDeleting) {
+        typingEl.textContent = current.substring(0, j++);
+        if (j > current.length) {
+            isDeleting = true;
+            setTimeout(typeEffect, 1200);
+            return;
+        }
+    } else {
+        typingEl.textContent = current.substring(0, j--);
+        if (j === 0) {
+            isDeleting = false;
+            i = (i + 1) % words.length;
+        }
+    }
+
+    setTimeout(typeEffect, isDeleting ? 60 : 100);
+}
+
+typeEffect();
+
+// Mobile Menu
+const menuBtn = document.querySelector(".menu-btn");
+const navLinks = document.querySelector(".nav-links");
+
+menuBtn.addEventListener("click", () => {
+    navLinks.classList.toggle("active");
+});
+
+// Dark / Light Mode
+const toggle = document.querySelector(".theme-toggle");
+
+toggle.addEventListener("click", () => {
+    document.body.classList.toggle("light");
+
+    const icon = toggle.querySelector("i");
+
+    if (document.body.classList.contains("light")) {
+        icon.classList.remove("fa-moon");
+        icon.classList.add("fa-sun");
+    } else {
+        icon.classList.remove("fa-sun");
+        icon.classList.add("fa-moon");
+    }
+});
+
+// Scroll Animation
+const sections = document.querySelectorAll("section");
+
+window.addEventListener("scroll", () => {
+    sections.forEach(sec => {
+        const top = window.scrollY;
+        const offset = sec.offsetTop - 400;
+
+        if (top > offset) {
+            sec.classList.add("show");
+        }
+    });
+});
+
+// Particles (optional lightweight effect)
+const canvas = document.createElement("canvas");
+document.body.appendChild(canvas);
+
+canvas.style.position = "fixed";
+canvas.style.top = "0";
+canvas.style.left = "0";
+canvas.style.zIndex = "-2";
+
+const ctx = canvas.getContext("2d");
+
+let particlesArray = [];
+
+function init() {
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+
+    particlesArray = [];
+
+    for (let i = 0; i < 80; i++) {
+        particlesArray.push({
+            x: Math.random() * canvas.width,
+            y: Math.random() * canvas.height,
+            size: Math.random() * 2,
+            speedY: Math.random() * 1 - 0.5
+        });
+    }
+}
+
+function animate() {
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+    ctx.fillStyle = "rgba(56,189,248,0.6)";
+
+    particlesArray.forEach(p => {
+        ctx.beginPath();
+        ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
+        ctx.fill();
+
+        p.y += p.speedY;
+
+        if (p.y < 0) p.y = canvas.height;
+    });
+
+    requestAnimationFrame(animate);
+}
+
+init();
+animate();
+
+window.addEventListener("resize", init);
+</script>
+
+</body>
+</html>
