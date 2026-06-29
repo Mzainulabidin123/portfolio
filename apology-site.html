@@ -1,0 +1,862 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>I'm Really Sorry 🥺💖</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;1,400&family=Nunito:wght@300;400;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --pink: #f9c6d5;
+    --deep-pink: #e8789a;
+    --soft-pink: #fde8f0;
+    --lavender: #e8d5f5;
+    --peach: #fce4d0;
+    --white: #fffaf9;
+    --blush: #f5dce8;
+    --mauve: #c994b8;
+    --text: #6b3d54;
+    --text-light: #a06080;
+    --gold: #f0c080;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: 'Nunito', sans-serif;
+    background: linear-gradient(135deg, #fde8f0 0%, #f5dce8 30%, #e8d5f5 60%, #fce4d0 100%);
+    min-height: 100vh;
+    overflow-x: hidden;
+    cursor: none;
+  }
+
+  /* Custom cursor */
+  #cursor {
+    width: 20px; height: 20px;
+    background: radial-gradient(circle, #f9c6d5, #e8789a);
+    border-radius: 50%;
+    position: fixed;
+    pointer-events: none;
+    z-index: 9999;
+    transform: translate(-50%, -50%);
+    transition: transform 0.1s;
+    box-shadow: 0 0 10px #e8789a88;
+  }
+
+  /* Decorative border */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 8px;
+    border: 2px solid #e8789a44;
+    border-radius: 20px;
+    pointer-events: none;
+    z-index: 100;
+    background: transparent;
+    box-shadow: inset 0 0 30px #f9c6d522;
+  }
+
+  /* Corner decorations */
+  .corner-deco {
+    position: fixed;
+    width: 90px; height: 90px;
+    pointer-events: none;
+    z-index: 101;
+    font-size: 28px;
+    display: flex; align-items: center; justify-content: center;
+    animation: cornerSway 4s ease-in-out infinite;
+  }
+  .corner-deco:nth-child(1) { top: 8px; left: 8px; animation-delay: 0s; }
+  .corner-deco:nth-child(2) { top: 8px; right: 8px; animation-delay: 1s; }
+  .corner-deco:nth-child(3) { bottom: 8px; left: 8px; animation-delay: 2s; }
+  .corner-deco:nth-child(4) { bottom: 8px; right: 8px; animation-delay: 0.5s; }
+  @keyframes cornerSway { 0%,100%{transform:rotate(-5deg) scale(1)} 50%{transform:rotate(5deg) scale(1.1)} }
+
+  /* Pages */
+  .page {
+    display: none;
+    min-height: 100vh;
+    padding: 60px 20px 40px;
+    position: relative;
+    animation: fadeIn 0.6s ease;
+  }
+  .page.active { display: flex; flex-direction: column; align-items: center; }
+  @keyframes fadeIn { from{opacity:0;transform:translateY(20px)} to{opacity:1;transform:translateY(0)} }
+
+  /* Loading screen */
+  #loading {
+    position: fixed; inset: 0;
+    background: linear-gradient(135deg, #fde8f0, #e8d5f5);
+    display: flex; flex-direction: column; align-items: center; justify-content: center;
+    z-index: 9998;
+    transition: opacity 0.8s ease;
+  }
+  #loading h2 { font-family: 'Playfair Display', serif; color: var(--text); font-size: 1.8rem; margin-top: 20px; }
+  .loading-hearts { display: flex; gap: 10px; }
+  .loading-heart {
+    font-size: 2rem;
+    animation: heartPop 1s ease-in-out infinite;
+  }
+  .loading-heart:nth-child(2) { animation-delay: 0.2s; }
+  .loading-heart:nth-child(3) { animation-delay: 0.4s; }
+  @keyframes heartPop { 0%,100%{transform:scale(1)} 50%{transform:scale(1.4)} }
+
+  /* Floating particles */
+  .particle {
+    position: fixed; pointer-events: none; z-index: 50;
+    animation: particleFall linear infinite;
+  }
+  @keyframes particleFall {
+    0% { transform: translateY(-20px) rotate(0deg); opacity: 1; }
+    100% { transform: translateY(110vh) rotate(360deg); opacity: 0; }
+  }
+
+  /* Glass cards */
+  .glass {
+    background: rgba(255,255,255,0.55);
+    backdrop-filter: blur(16px);
+    border: 1px solid rgba(255,255,255,0.7);
+    border-radius: 24px;
+    box-shadow: 0 8px 40px rgba(232,120,154,0.15), 0 2px 12px rgba(232,120,154,0.08);
+  }
+
+  /* Headings */
+  h1 {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(2.2rem, 6vw, 3.5rem);
+    color: var(--text);
+    text-align: center;
+    line-height: 1.2;
+    margin-bottom: 8px;
+  }
+  h2 {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(1.5rem, 4vw, 2.2rem);
+    color: var(--text);
+    text-align: center;
+  }
+  .subtitle {
+    color: var(--text-light);
+    font-size: 1.05rem;
+    text-align: center;
+    font-style: italic;
+    margin-bottom: 28px;
+  }
+
+  /* Buttons */
+  .btn {
+    display: inline-flex; align-items: center; gap: 8px;
+    padding: 14px 28px;
+    background: linear-gradient(135deg, rgba(249,198,213,0.9), rgba(232,213,245,0.9));
+    border: 1.5px solid rgba(232,120,154,0.4);
+    border-radius: 50px;
+    color: var(--text);
+    font-family: 'Nunito', sans-serif;
+    font-size: 1rem;
+    font-weight: 700;
+    cursor: pointer;
+    text-decoration: none;
+    box-shadow: 0 4px 20px rgba(232,120,154,0.2);
+    transition: all 0.3s ease;
+    animation: btnBounce 2.5s ease-in-out infinite;
+    position: relative;
+    overflow: hidden;
+  }
+  .btn::before {
+    content: '';
+    position: absolute; inset: 0;
+    background: linear-gradient(135deg, rgba(255,255,255,0.3), transparent);
+    border-radius: 50px;
+  }
+  .btn:hover {
+    transform: translateY(-4px) scale(1.04);
+    box-shadow: 0 10px 30px rgba(232,120,154,0.35);
+    background: linear-gradient(135deg, rgba(249,198,213,1), rgba(232,213,245,1));
+  }
+  .btn:active { transform: scale(0.97); }
+  @keyframes btnBounce {
+    0%,100%{transform:translateY(0)} 50%{transform:translateY(-4px)}
+  }
+  .btn:hover { animation: none; }
+  .btn-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px,1fr)); gap: 14px; max-width: 700px; width: 100%; margin-top: 28px; }
+
+  /* Back button */
+  .back-btn {
+    position: fixed; top: 24px; left: 24px;
+    background: rgba(255,255,255,0.7);
+    border: 1px solid rgba(232,120,154,0.3);
+    border-radius: 50px;
+    padding: 8px 18px;
+    color: var(--text);
+    cursor: pointer;
+    font-family: 'Nunito', sans-serif;
+    font-weight: 600;
+    font-size: 0.9rem;
+    z-index: 200;
+    backdrop-filter: blur(10px);
+    transition: all 0.2s;
+  }
+  .back-btn:hover { background: rgba(255,255,255,0.9); transform: translateX(-2px); }
+
+  /* Music button */
+  #music-btn {
+    position: fixed; top: 24px; right: 24px;
+    width: 44px; height: 44px;
+    background: rgba(255,255,255,0.7);
+    border: 1px solid rgba(232,120,154,0.3);
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    cursor: pointer;
+    z-index: 200;
+    font-size: 1.2rem;
+    backdrop-filter: blur(10px);
+    transition: all 0.2s;
+  }
+  #music-btn:hover { transform: scale(1.1); background: rgba(255,255,255,0.9); }
+
+  /* ====== HOME PAGE ====== */
+  #page-home { justify-content: center; gap: 20px; }
+
+  .bear-container {
+    position: relative;
+    width: 160px; height: 160px;
+    margin: 10px auto 0;
+    animation: bearFloat 3s ease-in-out infinite;
+  }
+  @keyframes bearFloat { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-12px)} }
+
+  .bear {
+    width: 140px; height: 140px;
+    position: relative;
+  }
+  .bear-svg { width: 100%; height: 100%; }
+
+  .home-card {
+    max-width: 560px; width: 100%;
+    padding: 36px 40px;
+    text-align: center;
+    position: relative;
+  }
+
+  .apology-note {
+    color: var(--text);
+    font-size: 1.05rem;
+    line-height: 1.8;
+    margin: 16px 0 4px;
+    font-weight: 400;
+  }
+
+  .glow-text {
+    display: inline-block;
+    background: linear-gradient(135deg, var(--deep-pink), var(--mauve));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    filter: drop-shadow(0 0 8px rgba(232,120,154,0.3));
+  }
+
+  /* ====== LETTER PAGE ====== */
+  #page-letter { justify-content: flex-start; gap: 24px; }
+  .letter-card {
+    max-width: 600px; width: 100%;
+    padding: 48px 48px 40px;
+  }
+  .letter-header {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.2rem;
+    color: var(--text-light);
+    margin-bottom: 20px;
+  }
+  .letter-body {
+    font-size: 1.05rem;
+    color: var(--text);
+    line-height: 2;
+    white-space: pre-line;
+  }
+  .letter-sig {
+    margin-top: 28px;
+    font-family: 'Playfair Display', serif;
+    font-style: italic;
+    color: var(--deep-pink);
+    font-size: 1.1rem;
+  }
+  .letter-deco { text-align: center; font-size: 1.5rem; margin: 16px 0 0; letter-spacing: 8px; }
+
+  /* ====== SPECIAL PAGE ====== */
+  #page-special { gap: 24px; }
+  .cards-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px,1fr));
+    gap: 16px;
+    max-width: 680px;
+    width: 100%;
+    margin-top: 16px;
+  }
+  .special-card {
+    padding: 28px 20px;
+    text-align: center;
+    border-radius: 20px;
+    cursor: default;
+    transition: all 0.3s ease;
+    animation: cardFloat 4s ease-in-out infinite;
+  }
+  .special-card:nth-child(2) { animation-delay: 0.4s; }
+  .special-card:nth-child(3) { animation-delay: 0.8s; }
+  .special-card:nth-child(4) { animation-delay: 1.2s; }
+  .special-card:nth-child(5) { animation-delay: 1.6s; }
+  @keyframes cardFloat { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-8px)} }
+  .special-card:hover { transform: translateY(-12px) scale(1.04) !important; animation: none; }
+  .special-card .icon { font-size: 2.2rem; margin-bottom: 10px; }
+  .special-card h3 {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.1rem;
+    color: var(--text);
+    margin-bottom: 6px;
+  }
+  .special-card p { font-size: 0.88rem; color: var(--text-light); line-height: 1.5; }
+
+  /* ====== SURPRISE ====== */
+  #page-surprise { justify-content: center; gap: 28px; }
+  #surprise-msg {
+    display: none;
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(1.3rem,4vw,2rem);
+    color: var(--text);
+    text-align: center;
+    max-width: 500px;
+    padding: 28px 36px;
+    animation: fadeIn 0.8s ease;
+  }
+  .heart-explosion { position: fixed; inset: 0; pointer-events: none; z-index: 300; }
+
+  /* ====== GARDEN ====== */
+  #page-garden { justify-content: flex-start; gap: 24px; }
+  .garden-area {
+    width: 100%; max-width: 700px;
+    min-height: 380px;
+    border-radius: 24px;
+    position: relative;
+    overflow: hidden;
+    cursor: pointer;
+    background: linear-gradient(180deg, #e8f5e9 0%, #c8e6c9 40%, #a5d6a7 100%);
+    border: 2px solid rgba(255,255,255,0.6);
+    box-shadow: 0 8px 40px rgba(100,180,100,0.2);
+  }
+  .garden-area::after {
+    content: 'Click anywhere to grow flowers 🌸';
+    position: absolute; bottom: 16px; left: 50%; transform: translateX(-50%);
+    font-size: 0.9rem; color: rgba(80,140,80,0.7); font-style: italic;
+    white-space: nowrap;
+  }
+  .garden-flower {
+    position: absolute;
+    transform-origin: bottom center;
+    animation: flowerBloom 0.6s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+    pointer-events: none;
+  }
+  @keyframes flowerBloom {
+    0% { transform: scale(0) translateY(20px); opacity: 0; }
+    100% { transform: scale(1) translateY(0); opacity: 1; }
+  }
+  .easter-egg-msg {
+    display: none;
+    background: rgba(255,255,255,0.9);
+    border: 2px solid rgba(232,120,154,0.4);
+    border-radius: 16px;
+    padding: 14px 24px;
+    font-size: 1rem;
+    color: var(--text);
+    text-align: center;
+    max-width: 340px;
+    animation: fadeIn 0.5s ease;
+    margin-top: 10px;
+  }
+
+  /* ====== SMILE PAGE ====== */
+  #page-smile { justify-content: center; gap: 24px; }
+  .smile-card {
+    max-width: 500px; width: 100%;
+    padding: 52px 48px;
+    text-align: center;
+  }
+  #smile-anim { display: none; animation: fadeIn 0.5s ease; }
+  .big-emoji { font-size: 5rem; animation: bigBounce 1s ease-in-out infinite; display: block; margin: 16px 0; }
+  @keyframes bigBounce { 0%,100%{transform:scale(1)} 50%{transform:scale(1.2)} }
+
+  /* Sparkles */
+  .sparkle {
+    position: fixed;
+    pointer-events: none;
+    z-index: 60;
+    animation: sparklePop 0.6s ease forwards;
+    font-size: 1rem;
+  }
+  @keyframes sparklePop {
+    0% { transform: scale(0) rotate(0deg); opacity: 1; }
+    100% { transform: scale(1.5) rotate(45deg); opacity: 0; }
+  }
+
+  /* Butterfly */
+  .butterfly {
+    position: fixed;
+    pointer-events: none;
+    z-index: 55;
+    font-size: 1.4rem;
+    animation: butterflyFly linear forwards;
+  }
+  @keyframes butterflyFly {
+    0% { transform: translateX(-60px) translateY(0) scaleX(1); opacity: 0; }
+    10% { opacity: 1; }
+    50% { transform: translateX(50vw) translateY(-30px) scaleX(-1); }
+    90% { opacity: 1; }
+    100% { transform: translateX(110vw) translateY(10px) scaleX(1); opacity: 0; }
+  }
+
+  /* Scroll hint */
+  .scroll-hint {
+    color: var(--text-light); font-size: 0.85rem;
+    text-align: center; animation: pulse 2s infinite;
+    margin-top: 8px;
+  }
+  @keyframes pulse { 0%,100%{opacity:0.5} 50%{opacity:1} }
+
+  /* Page title badge */
+  .page-badge {
+    background: linear-gradient(135deg, rgba(249,198,213,0.8), rgba(232,213,245,0.8));
+    border: 1px solid rgba(232,120,154,0.25);
+    border-radius: 50px;
+    padding: 6px 18px;
+    font-size: 0.85rem;
+    color: var(--text-light);
+    margin-bottom: 8px;
+    text-align: center;
+  }
+
+  @media (max-width: 500px) {
+    .home-card, .letter-card, .smile-card { padding: 28px 22px; }
+    .btn-grid { grid-template-columns: 1fr; }
+    .cards-grid { grid-template-columns: repeat(2, 1fr); }
+  }
+</style>
+</head>
+<body>
+
+<!-- Cursor -->
+<div id="cursor"></div>
+
+<!-- Corner decorations -->
+<div class="corner-deco">🌸</div>
+<div class="corner-deco">🌷</div>
+<div class="corner-deco">🌸</div>
+<div class="corner-deco">🌷</div>
+
+<!-- Music button -->
+<div id="music-btn" onclick="toggleMusic()" title="Toggle music">🎵</div>
+
+<!-- Loading -->
+<div id="loading">
+  <div class="loading-hearts">
+    <span class="loading-heart">💖</span>
+    <span class="loading-heart">💗</span>
+    <span class="loading-heart">💕</span>
+  </div>
+  <h2>one moment... 🌸</h2>
+</div>
+
+<!-- ===== HOME PAGE ===== -->
+<div id="page-home" class="page">
+  <div class="bear-container">
+    <svg class="bear-svg" viewBox="0 0 140 140" xmlns="http://www.w3.org/2000/svg">
+      <!-- Bear ears -->
+      <circle cx="35" cy="38" r="18" fill="#d4a0b0"/>
+      <circle cx="35" cy="38" r="11" fill="#f0c0d0"/>
+      <circle cx="105" cy="38" r="18" fill="#d4a0b0"/>
+      <circle cx="105" cy="38" r="11" fill="#f0c0d0"/>
+      <!-- Bear head -->
+      <circle cx="70" cy="62" r="44" fill="#e8b4c4"/>
+      <!-- Bear face -->
+      <ellipse cx="70" cy="76" rx="22" ry="16" fill="#f4cdd8"/>
+      <!-- Eyes -->
+      <circle cx="56" cy="56" r="6" fill="#5a2d3a"/>
+      <circle cx="84" cy="56" r="6" fill="#5a2d3a"/>
+      <circle cx="58" cy="54" r="2" fill="white"/>
+      <circle cx="86" cy="54" r="2" fill="white"/>
+      <!-- Nose -->
+      <ellipse cx="70" cy="68" rx="5" ry="3.5" fill="#c07090"/>
+      <!-- Mouth -->
+      <path d="M63 74 Q70 80 77 74" stroke="#c07090" stroke-width="2" fill="none" stroke-linecap="round"/>
+      <!-- Blush -->
+      <ellipse cx="47" cy="68" rx="8" ry="5" fill="#f0a0b8" opacity="0.5"/>
+      <ellipse cx="93" cy="68" rx="8" ry="5" fill="#f0a0b8" opacity="0.5"/>
+      <!-- Bear body -->
+      <ellipse cx="70" cy="116" rx="32" ry="28" fill="#e8b4c4"/>
+      <!-- Arms with flowers -->
+      <ellipse cx="32" cy="108" rx="14" ry="10" fill="#e8b4c4" transform="rotate(-20,32,108)"/>
+      <ellipse cx="108" cy="108" rx="14" ry="10" fill="#e8b4c4" transform="rotate(20,108,108)"/>
+      <!-- Flower in left arm -->
+      <circle cx="20" cy="98" r="6" fill="#f9c6d5"/>
+      <circle cx="13" cy="94" r="4" fill="#f9c6d5"/>
+      <circle cx="20" cy="89" r="4" fill="#f9c6d5"/>
+      <circle cx="27" cy="94" r="4" fill="#f9c6d5"/>
+      <circle cx="20" cy="98" r="3" fill="#fce4d0"/>
+      <!-- Flower in right arm -->
+      <circle cx="120" cy="98" r="6" fill="#f9c6d5"/>
+      <circle cx="113" cy="94" r="4" fill="#f9c6d5"/>
+      <circle cx="120" cy="89" r="4" fill="#f9c6d5"/>
+      <circle cx="127" cy="94" r="4" fill="#f9c6d5"/>
+      <circle cx="120" cy="98" r="3" fill="#fce4d0"/>
+      <!-- Tummy -->
+      <ellipse cx="70" cy="120" rx="18" ry="16" fill="#f4cdd8"/>
+      <!-- Heart on tummy -->
+      <text x="70" y="124" text-anchor="middle" font-size="14" fill="#e8789a">♥</text>
+    </svg>
+  </div>
+
+  <div class="home-card glass">
+<h1>I'm Really Sorry  Anni <span class="glow-text"></span></h1>
+    <p class="subtitle">Can I borrow a little piece of your heart for a minute?</p>
+    <p class="apology-note">
+      I know I messed up and I feel bad about it. I never wanted to hurt your feelings. You're really important to me and I just want to make things right 🌸
+    </p>
+    <div class="letter-deco" style="font-size:1.2rem; margin-top:16px; letter-spacing:6px; opacity:0.7;">💖 🌸 ✨ 🌷 💖</div>
+  </div>
+
+  <div class="btn-grid">
+    <button class="btn" onclick="showPage('letter')">Read My Letter 💌</button>
+    <button class="btn" onclick="showPage('special')">Reasons You're Special 🌷</button>
+    <button class="btn" onclick="showPage('surprise')">Press For Surprise ✨</button>
+    <button class="btn" onclick="showPage('garden')">Memory Garden 🌸</button>
+    <button class="btn" onclick="showPage('smile')">One Tiny Smile? 💖</button>
+  </div>
+  <p class="scroll-hint">✨ tap a button above ✨</p>
+</div>
+
+<!-- ===== LETTER PAGE ===== -->
+<div id="page-letter" class="page">
+  <button class="back-btn" onclick="showPage('home')">← Back</button>
+  <div class="page-badge">💌 A letter, just for you</div>
+  <h2>My Letter to You 💌</h2>
+  <p class="subtitle">Written with the most honest part of my heart</p>
+  <div class="letter-card glass">
+    <p class="letter-header">To the person who means so much to me,</p>
+    <p class="letter-body">I've been thinking a lot about what happened, and I owe you a real apology  not just words, but the kind that comes with understanding.
+
+I got things wrong. I didn't handle it the way I should have, and I know that what I did (or didn't do) affected you, and that matters to me more than I've probably shown.
+
+You didn't deserve to feel that way. You deserve patience, care, and someone who shows up properly. I fell short of that, and I'm genuinely, truly sorry.
+
+You're not just important to me  you're one of those rare people who makes the world feel a little warmer just by being in it. Losing your trust, even a little, hurts in a way I didn't expect. That's how I know this matters.
+
+I'm not asking you to forgive me right away. I just want you to know that I see it, I'm working on it, and I care about making things right  not because it makes me feel better, but because you deserve better. 🌷
+
+I hope one day we can look back at this moment and smile.</p>
+    <p class="letter-sig">With all the sincerity I have,<br>Someone who cares about you 🥺💖</p>
+    <div class="letter-deco">🌸 ✨ 💖 ✨ 🌸</div>
+  </div>
+</div>
+
+<!-- ===== SPECIAL PAGE ===== -->
+<div id="page-special" class="page">
+  <button class="back-btn" onclick="showPage('home')">← Back</button>
+  <div class="page-badge">🌷 Things you deserve to hear</div>
+  <h2>Reasons You're Special 🌷</h2>
+  <p class="subtitle">Just a few things I never want you to forget 🥺</p>
+  <div class="cards-grid">
+    <div class="special-card glass">
+      <div class="icon">🌸</div>
+      <h3>Your smile matters</h3>
+      <p>It genuinely brightens every room you walk into, even when you don't realize it.</p>
+    </div>
+    <div class="special-card glass">
+      <div class="icon">☀️</div>
+      <h3>You make days better</h3>
+      <p>Just your presence turns an ordinary day into something worth remembering.</p>
+    </div>
+    <div class="special-card glass">
+      <div class="icon">💎</div>
+      <h3>You are precious</h3>
+      <p>Genuinely, deeply precious  in the rarest, most irreplaceable kind of way.</p>
+    </div>
+    <div class="special-card glass">
+      <div class="icon">🌟</div>
+      <h3>You are unforgettable</h3>
+      <p>The kind of person people carry with them long after they've said goodbye.</p>
+    </div>
+    <div class="special-card glass">
+      <div class="icon">🎀</div>
+      <h3>You deserve happiness</h3>
+      <p>All of it. Every quiet joy, every big dream, every moment of pure peace. All of it is yours.</p>
+    </div>
+  </div>
+</div>
+
+<!-- ===== SURPRISE PAGE ===== -->
+<div id="page-surprise" class="page">
+  <button class="back-btn" onclick="showPage('home')">← Back</button>
+  <div class="page-badge">✨ something just for you</div>
+  <h2>A Little Surprise ✨</h2>
+  <p class="subtitle">Press the button and feel the love 🥺</p>
+  <button class="btn" id="surprise-btn" onclick="triggerSurprise()" style="font-size:1.1rem; padding:18px 40px;">
+    ✨ Press Me ✨
+  </button>
+  <div id="surprise-msg" class="glass">
+    <span style="font-size:2.5rem; display:block; margin-bottom:12px;">🥺</span>
+    You still mean a lot to me 🥺<br>
+    <span style="font-size:0.9rem; color:var(--text-light); font-family:'Nunito',sans-serif; font-weight:400; margin-top:10px; display:block;">
+      And that's never going to change 💖
+    </span>
+  </div>
+  <div id="heart-explosion" class="heart-explosion"></div>
+</div>
+
+<!-- ===== GARDEN PAGE ===== -->
+<div id="page-garden" class="page">
+  <button class="back-btn" onclick="showPage('home')">← Back</button>
+  <div class="page-badge">🌸 a garden grown just for you</div>
+  <h2>Memory Garden 🌸</h2>
+  <p class="subtitle">Every flower here is a good memory I want to keep 🌷</p>
+  <div class="garden-area" id="garden" onclick="plantFlower(event)"></div>
+  <div id="easter-msg" class="easter-egg-msg glass">🌸 You're my favorite notification 🌸</div>
+  <p style="color:var(--text-light); font-size:0.85rem; text-align:center; margin-top:8px;">✨ Each bloom is a wish for you ✨</p>
+</div>
+
+<!-- ===== SMILE PAGE ===== -->
+<div id="page-smile" class="page">
+  <button class="back-btn" onclick="showPage('home')">← Back</button>
+  <div class="smile-card glass" style="text-align:center;">
+    <div class="page-badge" style="display:inline-block; margin-bottom:16px;">💖 mission: one smile</div>
+    <h2>One Tiny Smile? 💖</h2>
+    <p class="subtitle" style="margin-top:8px;">Go on... you know you want to 🥺</p>
+    <button class="btn" onclick="showSmile()" style="margin-top:20px; font-size:1rem;">
+      💖 I smiled a little
+    </button>
+    <div id="smile-anim" style="margin-top:24px;">
+      <span class="big-emoji">🌷</span>
+      <p style="font-family:'Playfair Display',serif; font-size:1.3rem; color:var(--text); line-height:1.6;">
+        If I made you smile even a little,<br>mission successful 🌷
+      </p>
+      <p style="color:var(--text-light); font-size:0.95rem; margin-top:12px; line-height:1.7;">
+        That smile of yours — it's everything 🥺✨<br>
+        Thank you for giving me this moment 💖
+      </p>
+      <div style="font-size:1.4rem; margin-top:16px; letter-spacing:8px;">🌸 💖 ✨ 💖 🌸</div>
+    </div>
+  </div>
+</div>
+
+<script>
+// ===== STATE =====
+let currentPage = 'home';
+let flowerCount = 0;
+let clickedFlower = 0;
+const heartCursors = [];
+
+// ===== LOADING =====
+window.addEventListener('load', () => {
+  createParticles();
+  startButterflies();
+  setTimeout(() => {
+    const l = document.getElementById('loading');
+    l.style.opacity = '0';
+    setTimeout(() => { l.style.display = 'none'; showPage('home'); }, 800);
+  }, 1600);
+});
+
+// ===== CURSOR =====
+const cursor = document.getElementById('cursor');
+document.addEventListener('mousemove', e => {
+  cursor.style.left = e.clientX + 'px';
+  cursor.style.top = e.clientY + 'px';
+  if (Math.random() < 0.12) spawnHeartCursor(e.clientX, e.clientY);
+});
+
+function spawnHeartCursor(x, y) {
+  const el = document.createElement('div');
+  el.textContent = ['💖','💗','💕','🌸','✨'][Math.floor(Math.random()*5)];
+  el.style.cssText = `position:fixed;left:${x}px;top:${y}px;pointer-events:none;z-index:9990;font-size:${Math.random()*10+10}px;transform:translate(-50%,-50%);animation:heartFloat 1.2s ease forwards;`;
+  document.body.appendChild(el);
+  const style = document.createElement('style');
+  style.textContent = `@keyframes heartFloat{0%{opacity:1;transform:translate(-50%,-50%) scale(1)}100%{opacity:0;transform:translate(-50%,calc(-50% - 50px)) scale(0.5)}}`;
+  document.head.appendChild(style);
+  setTimeout(() => el.remove(), 1200);
+}
+
+// ===== PAGES =====
+function showPage(id) {
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+  document.getElementById('page-' + id).classList.add('active');
+  currentPage = id;
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+// ===== PARTICLES =====
+const emojis = ['🌸','💖','✨','🌷','💗','🎀','💕','⭐'];
+function createParticles() {
+  for (let i = 0; i < 18; i++) setTimeout(() => spawnParticle(), i * 300);
+  setInterval(spawnParticle, 2000);
+}
+
+function spawnParticle() {
+  const el = document.createElement('div');
+  el.className = 'particle';
+  const e = emojis[Math.floor(Math.random() * emojis.length)];
+  el.textContent = e;
+  el.style.left = Math.random() * 100 + 'vw';
+  el.style.top = '-30px';
+  el.style.fontSize = (Math.random() * 14 + 10) + 'px';
+  const dur = Math.random() * 10 + 12;
+  el.style.animationDuration = dur + 's';
+  el.style.opacity = (Math.random() * 0.4 + 0.3);
+  document.body.appendChild(el);
+  setTimeout(() => el.remove(), dur * 1000);
+}
+
+// ===== BUTTERFLIES =====
+function startButterflies() {
+  const interval = () => {
+    setTimeout(() => {
+      const b = document.createElement('div');
+      b.className = 'butterfly';
+      b.textContent = '🦋';
+      b.style.top = (Math.random() * 60 + 10) + 'vh';
+      const dur = Math.random() * 8 + 10;
+      b.style.animationDuration = dur + 's';
+      document.body.appendChild(b);
+      setTimeout(() => b.remove(), dur * 1000);
+      interval();
+    }, Math.random() * 15000 + 8000);
+  };
+  interval();
+}
+
+// ===== MUSIC (tone generator) =====
+let audioCtx = null;
+let musicPlaying = false;
+let musicNodes = [];
+
+function toggleMusic() {
+  const btn = document.getElementById('music-btn');
+  if (!musicPlaying) {
+    if (!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+    playAmbientMusic();
+    btn.textContent = '🔊';
+    musicPlaying = true;
+  } else {
+    musicNodes.forEach(n => { try { n.stop(); } catch(e){} });
+    musicNodes = [];
+    btn.textContent = '🎵';
+    musicPlaying = false;
+  }
+}
+
+function playAmbientMusic() {
+  const notes = [261.63, 293.66, 329.63, 349.23, 392.00, 440.00, 493.88, 523.25];
+  const playNote = (freq, time, duration) => {
+    const osc = audioCtx.createOscillator();
+    const gain = audioCtx.createGain();
+    osc.connect(gain); gain.connect(audioCtx.destination);
+    osc.type = 'sine';
+    osc.frequency.setValueAtTime(freq, time);
+    gain.gain.setValueAtTime(0, time);
+    gain.gain.linearRampToValueAtTime(0.04, time + 0.1);
+    gain.gain.linearRampToValueAtTime(0, time + duration);
+    osc.start(time); osc.stop(time + duration + 0.1);
+    musicNodes.push(osc);
+  };
+  const now = audioCtx.currentTime;
+  const melody = [0,2,4,5,4,2,0,2,4,7,5,4,2,4,5,4];
+  melody.forEach((idx, i) => {
+    playNote(notes[idx] * 0.5, now + i * 0.5, 0.7);
+    if (i % 4 === 0) playNote(notes[0] * 0.25, now + i * 0.5, 1.8);
+  });
+  if (musicPlaying) setTimeout(() => { if (musicPlaying) playAmbientMusic(); }, melody.length * 500);
+}
+
+// ===== SURPRISE =====
+function triggerSurprise() {
+  document.getElementById('surprise-msg').style.display = 'block';
+  document.getElementById('surprise-btn').style.display = 'none';
+  explodeHearts();
+  for (let i = 0; i < 6; i++) setTimeout(explodeHearts, i * 400);
+}
+
+function explodeHearts() {
+  const container = document.getElementById('heart-explosion');
+  for (let i = 0; i < 12; i++) {
+    const h = document.createElement('div');
+    h.textContent = ['💖','💗','💕','💓','🌸','✨'][Math.floor(Math.random()*6)];
+    const x = Math.random() * window.innerWidth;
+    const y = Math.random() * window.innerHeight;
+    h.style.cssText = `position:absolute;left:${x}px;top:${y}px;font-size:${Math.random()*24+16}px;animation:heartExplode ${Math.random()*0.8+0.6}s ease forwards;`;
+    container.appendChild(h);
+    setTimeout(() => h.remove(), 1400);
+  }
+  if (!document.getElementById('heartExplodeKF')) {
+    const s = document.createElement('style');
+    s.id = 'heartExplodeKF';
+    s.textContent = `@keyframes heartExplode{0%{opacity:1;transform:scale(0)}60%{opacity:1;transform:scale(1.4)}100%{opacity:0;transform:scale(0.8) translateY(-40px)}}`;
+    document.head.appendChild(s);
+  }
+}
+
+// ===== GARDEN =====
+const flowerEmojis = ['🌸','🌷','🌹','🌺','🌻','💐','🌼','🪷'];
+function plantFlower(e) {
+  const garden = document.getElementById('garden');
+  const rect = garden.getBoundingClientRect();
+  const x = e.clientX - rect.left;
+  const y = e.clientY - rect.top;
+  if (y > rect.height - 40) return;
+
+  const el = document.createElement('div');
+  el.className = 'garden-flower';
+  const em = flowerEmojis[Math.floor(Math.random() * flowerEmojis.length)];
+  el.textContent = em;
+  el.style.cssText = `left:${x}px;top:${y}px;font-size:${Math.random()*20+22}px;`;
+  el.dataset.clickCount = '0';
+  el.onclick = (ev) => {
+    ev.stopPropagation();
+    let cnt = parseInt(el.dataset.clickCount) + 1;
+    el.dataset.clickCount = cnt;
+    el.style.animation = 'none'; el.style.transform = 'scale(1.3)';
+    setTimeout(() => el.style.transform = '', 200);
+    if (cnt >= 5) {
+      document.getElementById('easter-msg').style.display = 'block';
+      setTimeout(() => document.getElementById('easter-msg').style.display = 'none', 4000);
+      el.dataset.clickCount = '0';
+    }
+  };
+  garden.appendChild(el);
+  flowerCount++;
+
+  // Sparkle around flower
+  for (let i = 0; i < 3; i++) {
+    const s = document.createElement('div');
+    s.className = 'sparkle';
+    s.textContent = '✨';
+    s.style.left = (rect.left + x + (Math.random()-0.5)*40) + 'px';
+    s.style.top = (rect.top + y + (Math.random()-0.5)*40) + 'px';
+    document.body.appendChild(s);
+    setTimeout(() => s.remove(), 600);
+  }
+}
+
+// ===== SMILE =====
+function showSmile() {
+  document.getElementById('smile-anim').style.display = 'block';
+  document.querySelector('#page-smile .btn').style.display = 'none';
+  for (let i = 0; i < 5; i++) {
+    setTimeout(() => {
+      for (let j = 0; j < 8; j++) {
+        const s = document.createElement('div');
+        s.textContent = ['💖','🌸','✨','💗','🌷'][Math.floor(Math.random()*5)];
+        s.style.cssText = `position:fixed;left:${Math.random()*100}vw;top:${Math.random()*100}vh;font-size:${Math.random()*20+14}px;pointer-events:none;z-index:500;animation:heartFloat 1.5s ease forwards;`;
+        document.body.appendChild(s);
+        setTimeout(() => s.remove(), 1500);
+      }
+    }, i * 300);
+  }
+}
+</script>
+</body>
+</html>
